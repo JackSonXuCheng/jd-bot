@@ -1,7 +1,7 @@
 const KEY = '';
 const serverJ = '';
 
-export {
+module.exports = {
   KEY,
   serverJ,
 }

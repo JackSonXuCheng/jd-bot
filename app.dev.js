@@ -27,8 +27,12 @@ function changeFile() {
   console.log('开始替换变量...')
   let content = fs.readFileSync(JSFile, 'utf8');
   content = content.replace(/var Key = ''/, `var Key = '${KEY}'`);
-  if (DualKey) {
-    content = content.replace(/var DualKey = ''/, `var DualKey = '${DualKey}'`);
+  try {
+    if (DualKey) {
+      content = content.replace(/var DualKey = ''/, `var DualKey = '${DualKey}'`);
+    }
+  } catch {
+    console.error('未找到 DualKey !');
   }
   fs.writeFileSync(JSFile, content, 'utf8', err => {
     if (err) throw err;
