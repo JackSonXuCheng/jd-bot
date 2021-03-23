@@ -6,6 +6,7 @@
 ## 链接
 - [Server酱·Turbo版](https://sct.ftqq.com/)
 - [JD登录界面](https://plogin.m.jd.com/login/login)
+- [NobyDa: Script](https://github.com/NobyDa/Script)
 
 ## 补充
 1. 可以通过点击右上角 star 来触发 Action 启动项目。
