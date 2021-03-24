@@ -16,44 +16,54 @@ const serverJ = process.env.PUSH_KEY;
 const DualKey = process.env.JD_COOKIE_2;
 
 async function downloadJS() {
-  console.log('开始下载代码...')
+  console.log('开始下载代码...');
   const url = `https://cdn.jsdelivr.net/gh/NobyDa/Script@master/JD-DailyBonus/${JSFile}`;
   // const url = `https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/${JSFile}`;
-  const res = await fetch(url);
-  const data = await res.text();
-  fs.writeFileSync(JSFile, data, err => {
-    if (err) throw err;
-    console.log('下载代码完毕!');
-  })
+  try {
+    const res = await fetch(url);
+    const data = await res.text();
+    fs.writeFileSync(JSFile, data);
+    console.log('下载代码完毕');
+  } catch {
+    console.error('下载代码失败');
+  }
 }
 
 function changeFile() {
-  console.log('开始替换变量...')
-  let content = fs.readFileSync(JSFile, 'utf8');
-  content = content.replace(/var Key = ''/, `var Key = '${KEY}'`);
+  console.log('开始替换变量...');
   try {
-    if (DualKey) {
-      content = content.replace(/var DualKey = ''/, `var DualKey = '${DualKey}'`);
+    let content = fs.readFileSync(JSFile, 'utf8');
+    content = content.replace(/var Key = ''/, `var Key = '${KEY}'`);
+    try {
+      if (DualKey) {
+        content = content.replace(/var DualKey = ''/, `var DualKey = '${DualKey}'`);
+      }
+    } catch {
+      console.error('未找到DualKey');
     }
-  } catch {
-    console.error('未找到 DualKey !');
-  }
-  fs.writeFileSync(JSFile, content, 'utf8', err => {
-    if (err) throw err;
+    fs.writeFileSync(JSFile, content, 'utf8');
     console.log('替换变量完毕!');
-  });
+  } catch {
+    console.error('替换变量失败');
+  }
 }
 
 async function sendNotify(title, desp) {
+  console.log('开始执行...');
   const url = `https://sctapi.ftqq.com/${serverJ}.send`;
-  form.append('title', title);
-  form.append('desp', desp);
-  const options = {
-    method: 'POST',
-    body: form,
-  };
-  const res = await fetch(url, options)
-  console.log(res);
+  try {
+    form.append('title', title);
+    form.append('desp', desp);
+    const options = {
+      method: 'POST',
+      body: form,
+    };
+    const res = await fetch(url, options);
+    console.log(res);
+    console.log('执行完毕!');
+  } catch {
+    console.error('执行失败');
+  }
 }
 
 async function start() {
@@ -68,9 +78,7 @@ async function start() {
   await changeFile();
 
   // 执行
-  console.log('开始执行...')
   await exec(`node ${JSFile} >> result.txt`);
-  console.log('执行完毕!');
 
   if (serverJ) {
     const path = './result.txt';
