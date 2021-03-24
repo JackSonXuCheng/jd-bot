@@ -12,7 +12,7 @@ const form = new FormData();
 const JSFile = 'JD_DailyBonus.js';
 
 async function downloadJS() {
-  console.log('开始下载代码...')
+  console.log('开始下载代码...');
   const url = `https://cdn.jsdelivr.net/gh/NobyDa/Script@master/JD-DailyBonus/${JSFile}`;
   // const url = `https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/${JSFile}`;
   try {
@@ -21,12 +21,12 @@ async function downloadJS() {
     fs.writeFileSync(JSFile, data);
     console.log('下载代码完毕');
   } catch {
-    console.error('下载代码失败')
+    console.error('下载代码失败');
   }
 }
 
 function changeFile() {
-  console.log('开始替换变量...')
+  console.log('开始替换变量...');
   try {
     let content = fs.readFileSync(JSFile, 'utf8');
     content = content.replace(/var Key = ''/, `var Key = '${KEY}'`);
@@ -45,7 +45,7 @@ function changeFile() {
 }
 
 async function sendNotify(title, desp) {
-  console.log('开始执行...')
+  console.log('开始执行...');
   const url = `https://sctapi.ftqq.com/${serverJ}.send`;
   try {
     form.append('title', title);
@@ -54,11 +54,11 @@ async function sendNotify(title, desp) {
       method: 'POST',
       body: form,
     };
-    const res = await fetch(url, options)
+    const res = await fetch(url, options);
     console.log(res);
     console.log('执行完毕!');
   } catch {
-    console.error('执行失败')
+    console.error('执行失败');
   }
 }
 
