@@ -13,15 +13,30 @@ const JSFile = 'JD_DailyBonus.js';
 
 async function downloadJS() {
   console.log('开始下载代码...');
-  const url = `https://cdn.jsdelivr.net/gh/NobyDa/Script@master/JD-DailyBonus/${JSFile}`;
-  // const url = `https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/${JSFile}`;
+  const url_cdn = `https://cdn.jsdelivr.net/gh/NobyDa/Script@master/JD-DailyBonus/${JSFile}`;
+  const url_raw = `https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/${JSFile}`;
   try {
-    const res = await fetch(url);
+    let res = await fetch(url_cdn);
+    if (res.status !== 200) {
+      throw Error(`${res.status} ${res.statusText} 从${url_cdn}下载代码失败`);
+    }
     const data = await res.text();
     fs.writeFileSync(JSFile, data);
     console.log('下载代码完毕');
-  } catch {
-    console.error('下载代码失败');
+  } catch (err) {
+    console.error(err);
+    try {
+      res = await fetch(url_raw);
+      if (res.status !== 200) {
+        throw Error(`${res.status} ${res.statusText} 从${url_raw}下载代码失败`);
+      }
+      const data = await res.text();
+      fs.writeFileSync(JSFile, data);
+      console.log('下载代码完毕');
+    } catch (err) {
+      console.error(err);
+      console.log(`下载代码文件${JSFile}失败`);
+    }
   }
 }
 

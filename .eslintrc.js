@@ -1,8 +1,7 @@
 /**
- * 基于 airbnb 的 eslint 规则，需要安装 eslint 和 eslint-plugin-react
+ * 基于 airbnb 的 eslint 规则，需要安装 eslint
  * @see https://eslint.org
  * @see https://github.com/airbnb/javascript
- * @see https://github.com/yannickcr/eslint-plugin-react
  */
 module.exports = {
   "env": {
@@ -12,13 +11,7 @@ module.exports = {
   "parserOptions": {
     "ecmaVersion": 12,
     "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
   },
-  "plugins": [
-    "react"
-  ],
   "rules": {
     // 指定 2 格缩进
     // https://eslint.org/docs/rules/indent
@@ -82,11 +75,16 @@ module.exports = {
     // 禁止重新分配 const 变量
     'no-const-assign': 'error',
 
-    /** 防止 React 被标记为未使用 */
-    "react/jsx-uses-react": "error",
+    // 单行块内需要间隔
+    'block-spacing': ['error', 'always'],
 
-    /** 防止将 JSX 中使用的变量标记为未使用  */
-    "react/jsx-uses-vars": "error",
+    // 文件尾换行，不允许多行
+    'eol-last': ['error', 'always'],
+
+    // 禁止行尾空格，包括空行以及注释
+    'no-trailing-spaces': ['error', {
+      skipBlankLines: false,
+      ignoreComments: false,
+    }],
   },
-
 };
